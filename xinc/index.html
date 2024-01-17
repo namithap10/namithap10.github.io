@@ -193,8 +193,7 @@
       <!-- <div class="columns is-centered"> -->
       <div class="column has-text-centered">
         <h1 class="title is-1 publication-title">Explaining the Implicit Neural Canvas (XINC): Connecting Pixels to
-          Neurons by
-          Tracing their Contributions</h1>
+          Neurons by Tracing their Contributions</h1>
 
 
         <div class="is-size-5 publication-authors">
@@ -250,15 +249,15 @@
                 </a>
               </span> -->
             <!-- Code Link. -->
-            <!-- <span class="link-block">
-                <a href=".git"
+            <span class="link-block">
+                <a href="https://github.com/namithap10/xinc"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="fab fa-github"></i>
                   </span>
                   <span>Code</span>
                   </a>
-              </span> -->
+              </span>
             <!--              <!~~ Dataset Link. ~~>
               <span class="link-block">
                 <a href=""
@@ -380,8 +379,25 @@
         </div>
       </div>
 
+      <img src="./static/images/framework.png" class="interpolation-image" alt="XINC framework." />
+      
+      <br>
+      <br>
 
-      <div class="columns is-centered has-text-centered">
+      <div class="has-text-left">
+        <!-- <b>Overview of our approach</b>:
+        <br> -->
+        <p>
+          <b>Left:</b> We dissect MLP-based INRs such as FFN [1] by aggregating their activations (weights
+          multiplied by previous
+          layer outputs) for each pixel at each neuron.
+          <b>Right:</b> We extend this core idea of pixel-to-neuron mapping for CNN-based INRs, NeRV [2] by
+          computing
+          intermediate feature maps that are not yet summed on the input dimension.
+        </p>
+      </div>
+
+      <!-- <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
 
           <img src="./static/images/framework.png" class="interpolation-image" alt="XINC framework." />
@@ -389,20 +405,8 @@
           <br>
           <br>
 
-          <div>
-            <b>Overview of our approach</b>:
-            <br>
-            <p>
-              <b>Left:</b> We dissect MLP-based INRs such as FFN [1] by aggregating their activations (weights
-              multiplied by previous
-              layer outputs) for each pixel at each neuron.
-              <b>Right:</b> We extend this core idea of pixel-to-neuron mapping for CNN-based INRs, NeRV [2] by
-              computing
-              intermediate feature maps that are not yet summed on the input dimension.
-            </p>
-          </div>
         </div>
-      </div>
+      </div> -->
 
     </div>
   </section>
@@ -433,8 +437,9 @@
         </div>
       </h4> -->
 
-      <img src="./static/images/ffn_maps.png" class="interpolation-image" alt="FFN Maps." />
+      <img src="./static/images/ffn_maps.jpg" class="interpolation-image" alt="FFN Maps." />
 
+      <br>
       <br>
       <p class="has-text-justified">
         Using <span class="dnerf">XINC</span> to dissect the FFN network, we can obtain neuron contribution maps and
@@ -816,7 +821,7 @@
   <section class="section" id="BibTeX">
     <div class="container is-max-desktop content">
       <h2 class="title">BibTeX</h2>
-      <pre><code>@article{}
+      <pre><code>
       </code></pre>
     </div>
   </section>
