@@ -253,14 +253,13 @@
               </span> -->
             <!-- Code Link. -->
             <span class="link-block">
-                <a href="https://github.com/namithap10/xinc"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-github"></i>
-                  </span>
-                  <span>Code</span>
-                  </a>
-              </span>
+              <a href="https://github.com/namithap10/xinc" class="external-link button is-normal is-rounded is-dark">
+                <span class="icon">
+                  <i class="fab fa-github"></i>
+                </span>
+                <span>Code</span>
+              </a>
+            </span>
             <!--              <!~~ Dataset Link. ~~>
               <span class="link-block">
                 <a href=""
@@ -322,13 +321,20 @@
           <h2 class="title is-3">Abstract</h2>
           <div class="content has-text-justified">
             <p>
-              The many variations of Implicit Neural Representations (INRs), where a neural network is trained as a continuous representation of a signal, have tremendous practical utility for downstream tasks including novel view synthesis, video compression, and image super-resolution. 
-              Unfortunately, the inner workings of these networks are seriously understudied. 
-              Our work, eXplaining the Implicit Neural Canvas (XINC), is a unified framework for explaining properties of INRs by examining the strength of each neuron’s contribution to each output pixel. 
-              We call the aggregate of these contribution maps the Implicit Neural Canvas and we use this concept to demonstrate that the INRs we study learn to “see” the frames they represent in surprising ways. 
-              For example, INRs tend to have highly distributed representations. 
-              While lacking high-level object semantics, they have a significant bias for color and edges, and are almost entirely space-agnostic. 
-              We arrive at our conclusions by examining how objects are represented across time in video INRs, using clustering to visualize similar neurons across layers and architectures, and show that this is dominated by motion. 
+              The many variations of Implicit Neural Representations (INRs), where a neural network is trained as a
+              continuous representation of a signal, have tremendous practical utility for downstream tasks including
+              novel view synthesis, video compression, and image super-resolution.
+              Unfortunately, the inner workings of these networks are seriously understudied.
+              Our work, eXplaining the Implicit Neural Canvas (XINC), is a unified framework for explaining properties
+              of INRs by examining the strength of each neuron’s contribution to each output pixel.
+              We call the aggregate of these contribution maps the Implicit Neural Canvas and we use this concept to
+              demonstrate that the INRs we study learn to “see” the frames they represent in surprising ways.
+              For example, INRs tend to have highly distributed representations.
+              While lacking high-level object semantics, they have a significant bias for color and edges, and are
+              almost entirely space-agnostic.
+              We arrive at our conclusions by examining how objects are represented across time in video INRs, using
+              clustering to visualize similar neurons across layers and architectures, and show that this is dominated
+              by motion.
               These insights demonstrate the general usefulness of our analysis framework.
             </p>
 
@@ -377,7 +383,7 @@
       </div>
 
       <img src="./static/images/framework.png" class="interpolation-image" alt="XINC framework." />
-      
+
       <br>
       <br>
 
@@ -819,13 +825,13 @@
     <div class="container is-max-desktop content">
       <h2 class="title">BibTeX</h2>
       <pre><code>
-        @misc{padmanabhan2024explaining,
-          title={Explaining the Implicit Neural Canvas: Connecting Pixels to Neurons by Tracing their Contributions}, 
-          author={Namitha Padmanabhan and Matthew Gwilliam and Pulkit Kumar and Shishira R Maiya and Max Ehrlich and Abhinav Shrivastava},
-          year={2024},
-          eprint={2401.10217},
-          archivePrefix={arXiv},
-          primaryClass={cs.CV}
+        @InProceedings{Padmanabhan_2024_CVPR,
+          author    = {Padmanabhan, Namitha and Gwilliam, Matthew and Kumar, Pulkit and Maiya, Shishira R and Ehrlich, Max and Shrivastava, Abhinav},
+          title     = {Explaining the Implicit Neural Canvas: Connecting Pixels to Neurons by Tracing their Contributions},
+          booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+          month     = {June},
+          year      = {2024},
+          pages     = {10957-10967}
         }
       </code></pre>
     </div>
