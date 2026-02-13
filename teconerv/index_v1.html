@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeCoNeRV: Temporal Coherence for Neural Video Compression</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Academicons for paper icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.4/css/academicons.min.css">
+    <!-- Font Awesome for other icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --color-primary: #2563eb;
+            --color-primary-dark: #1d4ed8;
+            --color-accent: #7c3aed;
+            --color-text: #1e293b;
+            --color-text-secondary: #64748b;
+            --color-bg: #ffffff;
+            --color-bg-alt: #f8fafc;
+            --color-border: #e2e8f0;
+            --color-success: #10b981;
+            --color-warning: #f59e0b;
+            --font-serif: 'Source Serif 4', Georgia, serif;
+            --font-sans: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --max-width: 900px;
+            --section-spacing: 4rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            font-size: 17px;
+            line-height: 1.7;
+            color: var(--color-text);
+            background: var(--color-bg);
+        }
+
+        /* Layout */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        section {
+            padding: var(--section-spacing) 0;
+        }
+
+        section:nth-child(even) {
+            background: var(--color-bg-alt);
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            font-family: var(--font-serif);
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        h1 {
+            font-size: 2.75rem;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            color: var(--color-text);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 0 3rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--color-text) 0%, var(--color-primary-dark) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .venue {
+            display: inline-block;
+            background: var(--color-primary);
+            color: white;
+            padding: 0.35rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .authors {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .authors a {
+            color: var(--color-text);
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 1px solid transparent;
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .authors a:hover,
+        .authors a:focus-visible {
+            color: var(--color-primary);
+            text-decoration: none;
+            border-bottom-color: var(--color-primary);
+            outline: none;
+        }
+
+        .authors sup {
+            color: var(--color-primary);
+            font-weight: 600;
+        }
+
+        .affiliations {
+            color: var(--color-text-secondary);
+            font-size: 1.15rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Buttons */
+        .button-row {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            border: 2px solid var(--color-border);
+            background: var(--color-bg);
+            color: var(--color-text);
+        }
+
+        .btn:hover {
+            text-decoration: none;
+            border-color: var(--color-primary);
+            background: var(--color-primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn i, .btn .ai {
+            font-size: 1.1rem;
+        }
+
+        /* Teaser Figure */
+        .teaser {
+            margin: 2.5rem 0;
+            text-align: center;
+        }
+
+        .teaser img {
+            max-width: 100%;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .teaser-caption {
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            color: var(--color-text-secondary);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Key Advantages */
+        .advantages {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .advantage-card {
+            background: white;
+            border: 1px solid var(--color-border);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .advantage-card:hover {
+            border-color: var(--color-primary);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+        }
+
+        .advantage-card .icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .advantage-card h3 {
+            font-family: var(--font-sans);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .advantage-card p {
+            font-size: 0.95rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* Abstract */
+        .abstract {
+            font-family: var(--font-serif);
+            font-size: 1.05rem;
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        /* Method Section */
+        .method-figure {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .method-figure img {
+            max-width: 100%;
+            border-radius: 0.5rem;
+        }
+
+        .method-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .method-point {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .method-point .number {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            background: var(--color-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .method-point h4 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .method-point p {
+            font-size: 0.95rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* Results Section */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .result-card {
+            background: white;
+            border: 1px solid var(--color-border);
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .result-card .dataset {
+            font-size: 0.85rem;
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-success);
+            font-family: var(--font-mono);
+        }
+
+        .result-card .value.negative {
+            color: var(--color-primary);
+        }
+
+        .result-card .label {
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+        }
+
+        .resolution-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .resolution-tab {
+            padding: 0.5rem 1.25rem;
+            border: 2px solid var(--color-border);
+            border-radius: 2rem;
+            background: white;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .resolution-tab:hover {
+            border-color: var(--color-primary);
+        }
+
+        .resolution-tab.active {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            color: white;
+        }
+
+        /* Qualitative Results Placeholder */
+        .qual-placeholder {
+            background: var(--color-bg-alt);
+            border: 2px dashed var(--color-border);
+            border-radius: 0.75rem;
+            padding: 3rem;
+            text-align: center;
+            color: var(--color-text-secondary);
+            margin: 2rem 0;
+        }
+
+        .qual-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* R-D Plot */
+        .rd-plot {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .rd-plot img {
+            max-width: 600px;
+            width: 100%;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Rate Control Section */
+        .rate-control-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .rate-control-item {
+            text-align: center;
+        }
+
+        .rate-control-item img {
+            max-width: 100%;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .rate-control-item h4 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .rate-control-item p {
+            font-size: 0.95rem;
+            color: var(--color-text-secondary);
+        }
+
+        /* Generalization Section */
+        .gen-highlight {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(124, 58, 237, 0.05));
+            border-left: 4px solid var(--color-primary);
+            padding: 1.5rem;
+            border-radius: 0 0.5rem 0.5rem 0;
+            margin: 1.5rem 0;
+        }
+
+        .gen-highlight p {
+            margin-bottom: 0;
+            font-size: 1.05rem;
+        }
+
+        .gen-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+        }
+
+        .gen-table th, .gen-table td {
+            padding: 0.75rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .gen-table th {
+            background: var(--color-bg-alt);
+            font-weight: 600;
+        }
+
+        .gen-table .check {
+            color: var(--color-success);
+        }
+
+        .gen-table .cross {
+            color: #ef4444;
+        }
+
+        /* BibTeX */
+        .bibtex-container {
+            background: #1e293b;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            position: relative;
+        }
+
+        .bibtex-container pre {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: #e2e8f0;
+            overflow-x: auto;
+            margin: 0;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #94a3b8;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem 0;
+            text-align: center;
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--color-border);
+        }
+
+        footer a {
+            color: var(--color-text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .rate-control-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .resolution-tabs {
+                flex-wrap: wrap;
+            }
+        }
+
+        /* Smooth animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <!-- <span class="venue"></span> -->
+            <h1>TeCoNeRV: Leveraging Temporal Coherence for Compressible Neural Representations for Videos</h1>
+            
+            <p class="authors">
+                <a href="https://namithap10.github.io/">Namitha Padmanabhan</a>, 
+                <a href="https://mgwillia.github.io/">Matthew Gwilliam</a>,
+                <a href="https://www.cs.umd.edu/~abhinav/">Abhinav Shrivastava</a>
+            </p>
+            <!-- <sup>1</sup>, -->
+            <p class="affiliations">
+                University of Maryland, College Park
+            </p>
+
+            <div class="button-row">
+                <a href="#" class="btn">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    Paper
+                </a>
+                <a href="#" class="btn">
+                    <i class="ai ai-arxiv"></i>
+                    arXiv
+                </a>
+                <a href="#" class="btn">
+                    <i class="fa-brands fa-github"></i>
+                    Code
+                </a>
+                <!-- <a href="#bibtex" class="btn">
+                    <i class="fa-solid fa-quote-left"></i>
+                    BibTeX
+                </a> -->
+            </div>
+
+            <!-- Teaser Figure -->
+            <div class="teaser">
+                <!-- TODO: Replace with actual teaser figure -->
+                <div style="max-width: 800px; margin: 2rem auto;">
+                    <!-- <i class="fa-solid fa-image"></i> -->
+                    <img src="assets/teaser.png" alt="TeCoNeRV Teaser">
+                    <!-- <p><strong>Teaser Figure Placeholder</strong><br>
+                    L2 Norm of Residuals plot showing smooth weight transitions (TeCoNeRV) vs chaotic baseline (NeRV-Enc)</p> -->
+                </div>
+                <p class="teaser-caption">
+                    <strong>TeCoNeRV achieves smoother weight transitions across video clips, enabling superior compression.</strong>
+                    Our temporal coherence regularization produces smaller weight residuals as video content evolves, 
+                    resulting in efficient compression while preserving visual quality.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Advantages -->
+    <section>
+        <div class="container">
+            <h2 style="text-align: center;">Key Advantages</h2>
+            <div class="advantages">
+                <div class="advantage-card">
+                    <div class="icon"><i class="fa-solid fa-memory"></i></div>
+                    <h3>20× Memory Reduction</h3>
+                    <p>Patch-tubelet decomposition decouples memory from resolution, enabling training on standard GPUs.</p>
+                </div>
+                <div class="advantage-card">
+                    <div class="icon"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></div>
+                    <h3>Resolution-Independent</h3>
+                    <p>Train at 480p, inference at 1080p. No high-resolution training data required.</p>
+                </div>
+                <div class="advantage-card">
+                    <div class="icon"><i class="fa-solid fa-bolt"></i></div>
+                    <h3>3× Faster Encoding</h3>
+                    <p>Hypernetwork-based approach eliminates per-video optimization entirely.</p>
+                </div>
+                <div class="advantage-card">
+                    <div class="icon"><i class="fa-solid fa-compress"></i></div>
+                    <h3>36% Lower Bitrate</h3>
+                    <p>Temporal coherence regularization produces highly compressible weight residuals.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Abstract -->
+    <section>
+        <div class="container">
+            <h2>Abstract</h2>
+            <p class="abstract">
+                Implicit Neural Representations (INRs) have recently demonstrated impressive performance for video compression. 
+                However, since a separate INR must be overfit for each video, scaling to high-resolution videos while maintaining 
+                encoding efficiency remains a significant challenge. Hypernetwork-based approaches predict INR weights (hyponetworks) 
+                for unseen videos at high speeds, but with low quality, high compressed size, and prohibitive memory needs at higher 
+                resolutions. We address these fundamental limitations through three key contributions: (1) an approach that decomposes 
+                the weight prediction task spatially and temporally, breaking short video segments into <em>patch tubelets</em> to reduce 
+                the memory overhead by 20× during pretraining; (2) a residual-based storage scheme that captures only the differences 
+                between consecutive segment representations, significantly reducing bitstream size; and (3) a <em>temporal coherence 
+                regularization</em> framework that encourages changes in the weight space to be correlated with changes in video content. 
+                Our proposed method, <strong>TeCoNeRV</strong>, achieves substantial improvements of <strong>2.47dB</strong> and 
+                <strong>5.35dB</strong> PSNR over the baseline at 480p and 720p on UVG, with <strong>36% lower bitrates</strong> and 
+                <strong>1.5-3× faster encoding speeds</strong>. With our low memory usage, we are the first hypernetwork-based approach 
+                to demonstrate results at 480p, 720p and 1080p on UVG, HEVC, and MCL-JCV.
+            </p>
+        </div>
+    </section>
+
+    <!-- Method -->
+    <section>
+        <div class="container">
+            <h2>Method</h2>
+            <p>
+                TeCoNeRV addresses the fundamental scaling limitations of hypernetwork-based video compression through 
+                three complementary innovations:
+            </p>
+
+            <div class="method-figure">
+                <!-- TODO: Replace with actual method figure -->
+                <div class="qual-placeholder">
+                    <i class="fa-solid fa-diagram-project"></i>
+                    <p><strong>Method Figure Placeholder</strong><br>
+                    Figure 2 from paper: Overview showing patch-tubelets, residual encoding, and temporal coherence finetuning</p>
+                </div>
+            </div>
+
+            <div class="method-points">
+                <div class="method-point">
+                    <div class="number">1</div>
+                    <div>
+                        <h4>Patch-Tubelet Decomposition</h4>
+                        <p>We partition videos into small spatio-temporal volumes, making memory requirements independent of video resolution. This enables the first hypernetwork-based results at 720p and 1080p.</p>
+                    </div>
+                </div>
+                <div class="method-point">
+                    <div class="number">2</div>
+                    <div>
+                        <h4>Residual Encoding</h4>
+                        <p>Instead of storing full weights per clip, we store only the first clip's weights and compact residuals for subsequent clips, exploiting temporal redundancy.</p>
+                    </div>
+                </div>
+                <div class="method-point">
+                    <div class="number">3</div>
+                    <div>
+                        <h4>Temporal Coherence Regularization</h4>
+                        <p>We regularize weight transitions to be smooth over time, producing smaller residuals that compress more efficiently. The regularization strength provides direct rate control.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results -->
+    <section class="section">
+        <div class="container is-max-desktop">
+        <h2 class="title is-3 has-text-centered">Results</h2>
+        
+        <p class="has-text-centered" style="margin-bottom: 1.5rem;">
+            PSNR improvement over baseline NeRV-Enc* across resolutions and datasets:
+        </p>
+
+        <!-- Resolution Tabs -->
+        <div class="res-tabs">
+            <button class="res-tab is-active" onclick="showResults('480p')">480p</button>
+            <button class="res-tab" onclick="showResults('720p')">720p</button>
+            <button class="res-tab" onclick="showResults('1080p')">1080p</button>
+        </div>
+
+        <!-- 480p Results -->
+        <div id="results-480p" class="columns is-centered">
+
+            <!-- R-D Plot -->
+            <h3 class="title is-4 has-text-centered" style="margin-top: 2.5rem;">Rate-Distortion Performance</h3>
+            <div class="has-text-centered">
+            <img src="static/images/rd_plot.png" alt="Rate-distortion curves" style="max-width: 550px; width: 100%;">
+            <p class="is-size-7" style="color: #7a7a7a; margin-top: 0.5rem;">
+                Quality vs bitrate on UVG (left) and Kinetics-400 (right) at 480p.
+            </p>
+            </div>
+
+            <div class="column is-3">
+            <div class="result-box">
+                <div class="dataset-name">UVG</div>
+                <div class="value">+2.47</div>
+                <div class="label-text">dB PSNR</div>
+            </div>
+            </div>
+            <div class="column is-3">
+            <div class="result-box">
+                <div class="dataset-name">HEVC</div>
+                <div class="value">+1.66</div>
+                <div class="label-text">dB PSNR</div>
+            </div>
+            </div>
+            <div class="column is-3">
+            <div class="result-box">
+                <div class="dataset-name">MCL-JCV</div>
+                <div class="value">+1.94</div>
+                <div class="label-text">dB PSNR</div>
+            </div>
+            </div>
+        </div>
+
+        <!-- 720p Results -->
+        <div id="results-720p" class="columns is-centered" style="display: none;">
+            <div class="column is-3">
+            <div class="result-box">
+                <div class="dataset-name">UVG</div>
+                <div class="value">+4.94</div>
+                <div class="label-text">dB PSNR</div>
+            </div>
+            </div>
+            <div class="column is-3">
+            <div class="result-box">
+                <div class="dataset-name">HEVC</div>
+                <div class="value">+6.11</div>
+                <div class="label-text">dB PSNR</div>
+            </div>
+            </div>
+            <div class="column is-3">
+            <div class="result-box">
+                <div class="dataset-name">MCL-JCV</div>
+                <div class="value">+4.64</div>
+                <div class="label-text">dB PSNR</div>
+            </div>
+            </div>
+        </div>
+
+        <!-- 1080p Results -->
+        <div id="results-1080p" class="columns is-centered" style="display: none;">
+            <div class="column is-3">
+            <div class="result-box">
+                <div class="dataset-name">UVG</div>
+                <div class="value">+4.63</div>
+                <div class="label-text">dB vs NeRV</div>
+            </div>
+            </div>
+            <div class="column is-3">
+            <div class="result-box">
+                <div class="dataset-name">HEVC</div>
+                <div class="value">+4.10</div>
+                <div class="label-text">dB vs NeRV</div>
+            </div>
+            </div>
+            <div class="column is-3">
+            <div class="result-box">
+                <div class="dataset-name">MCL-JCV</div>
+                <div class="value">+8.12</div>
+                <div class="label-text">dB vs NeRV</div>
+            </div>
+            </div>
+        </div>
+
+        <p class="has-text-centered is-size-7" style="color: #7a7a7a; margin-top: 0.5rem;">
+            Note: At 1080p, NeRV-Enc* runs out of memory. Comparisons shown against per-video NeRV baseline.
+        </p>
+
+
+        <!-- Qualitative Results -->
+        <h3 class="title is-4 has-text-centered" style="margin-top: 2.5rem;">Qualitative Comparison</h3>
+        
+        <div class="res-tabs">
+            <button class="res-tab is-active" onclick="showQual('480p')">480p</button>
+            <button class="res-tab" onclick="showQual('720p')">720p</button>
+            <button class="res-tab" onclick="showQual('1080p')">1080p</button>
+        </div>
+
+        <div id="qual-480p" class="has-text-centered">
+            <img src="static/images/qual_480p.png" alt="Qualitative comparison at 480p" style="max-width: 100%;">
+        </div>
+        <div id="qual-720p" class="has-text-centered" style="display: none;">
+            <img src="static/images/qual_720p.png" alt="Qualitative comparison at 720p" style="max-width: 100%;">
+        </div>
+        <div id="qual-1080p" class="has-text-centered" style="display: none;">
+            <img src="static/images/qual_1080p.png" alt="Qualitative comparison at 1080p" style="max-width: 100%;">
+            <p class="is-size-7" style="color: #7a7a7a;">NeRV-Enc* cannot run at 1080p (Out of Memory)</p>
+        </div>
+        </div>
+    </section>
+
+    <!-- Rate Control -->
+    <section>
+        <div class="container">
+            <h2>Flexible Rate Control</h2>
+            <p>
+                TeCoNeRV provides two complementary mechanisms for controlling the quality-bitrate trade-off:
+            </p>
+
+            <div class="rate-control-grid">
+                <div class="rate-control-item">
+                    <!-- TODO: Replace with actual Figure 5 -->
+                    <div class="qual-placeholder" style="height: 250px;">
+                        <i class="fa-solid fa-grip"></i>
+                        <p><strong>Patch Configuration</strong><br>Figure 5 placeholder</p>
+                    </div>
+                    <h4>Patch Size & Overlap</h4>
+                    <p>Adjust spatial partitioning and overlapping inference to balance quality and bitrate. More patches increase quality at the cost of higher bitrate.</p>
+                </div>
+                <div class="rate-control-item">
+                    <!-- TODO: Replace with actual Figure 6 -->
+                    <div class="qual-placeholder" style="height: 250px;">
+                        <i class="fa-solid fa-sliders"></i>
+                        <p><strong>λ<sub>temp</sub> Control</strong><br>Figure 6 placeholder</p>
+                    </div>
+                    <h4>Temporal Regularization Strength</h4>
+                    <p>Varying λ<sub>temp</sub> provides up to 18% bitrate reduction with only 4% PSNR loss, offering interpretable rate control.</p>
+                </div>
+            </div>
+
+            <p style="margin-top: 1rem;">
+                <strong>Overlapping Inference:</strong> To eliminate boundary artifacts from patch-based reconstruction, 
+                we employ strided inference with overlap. Cropping at patch boundaries produces smooth transitions 
+                with minimal computational overhead.
+            </p>
+        </div>
+    </section>
+
+    <!-- Resolution-Independent Training -->
+    <section class="section">
+        <div class="container is-max-desktop">
+        <h2 class="title is-3 has-text-centered">Resolution-Independent Training</h2>
+
+        <div class="highlight-box">
+            <p>
+            <b>Key Insight:</b> A single model trained on 480p videos can perform high-quality inference 
+            at 720p and 1080p — no high-resolution training data required.
+            </p>
+        </div>
+
+        <p class="has-text-justified">
+            Our patch-tubelet approach learns to predict weights for fixed-size spatio-temporal regions, 
+            making resolution scaling a function of patch count rather than model capacity. This is 
+            fundamentally impossible for prior hypernetwork methods, which are tied to a fixed resolution 
+            and whose memory constraints prevent high-resolution training.
+        </p>
+
+        <table class="gen-table">
+            <thead>
+            <tr>
+                <th>Train Resolution</th>
+                <th>480p Inference</th>
+                <th>720p Inference</th>
+                <th>1080p Inference</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><b>480p (Ours)</b></td>
+                <td class="check">✓ 25.52 dB</td>
+                <td class="check">✓ 25.63 dB</td>
+                <td class="check">✓ 25.95 dB</td>
+            </tr>
+            <tr>
+                <td><b>720p (Ours)</b></td>
+                <td>—</td>
+                <td class="check">✓ 25.22 dB</td>
+                <td class="check">✓ 25.28 dB</td>
+            </tr>
+            <tr>
+                <td><b>NeRV-Enc*</b></td>
+                <td>23.05 dB</td>
+                <td>20.28 dB</td>
+                <td class="cross">✗ OOM</td>
+            </tr>
+            </tbody>
+        </table>
+        <p class="has-text-centered is-size-7" style="color: #7a7a7a;">
+            PSNR on UVG dataset. TeCoNeRV trained at 480p outperforms NeRV-Enc* even at higher inference resolutions.
+        </p>
+        </div>
+    </section>
+
+    <!-- BibTeX -->
+    <section id="bibtex">
+        <div class="container">
+            <h2>Citation</h2>
+            <p>If you find our work useful, please consider citing:</p>
+            <div class="bibtex-container">
+                <button class="copy-btn" onclick="copyBibtex()">
+                    <i class="fa-regular fa-copy"></i> Copy
+                </button>
+                <pre>
+                </pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>
+                Website template inspired by <a href="https://nerfies.github.io/" target="_blank">Nerfies</a>.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Resolution tab switching for quantitative results
+        function showResults(resolution) {
+            // Hide all result grids
+            document.getElementById('results-480p').style.display = 'none';
+            document.getElementById('results-720p').style.display = 'none';
+            document.getElementById('results-1080p').style.display = 'none';
+            
+            // Show selected
+            document.getElementById('results-' + resolution).style.display = 'grid';
+            
+            // Update tab states
+            const tabs = document.querySelectorAll('.resolution-tabs')[0].querySelectorAll('.resolution-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        // Resolution tab switching for qualitative results
+        function showQual(id) {
+            // Hide all qual placeholders
+            document.getElementById('480p-qual').style.display = 'none';
+            document.getElementById('720p-qual').style.display = 'none';
+            document.getElementById('1080p-qual').style.display = 'none';
+            
+            // Show selected
+            document.getElementById(id).style.display = 'flex';
+            
+            // Update tab states (second set of tabs)
+            const tabs = document.querySelectorAll('.resolution-tabs')[1].querySelectorAll('.resolution-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        // Copy BibTeX to clipboard
+        function copyBibtex() {
+            const bibtex = document.querySelector('.bibtex-container pre').textContent;
+            navigator.clipboard.writeText(bibtex).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

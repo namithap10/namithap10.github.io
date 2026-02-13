@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+    content="TeCoNeRV: Leveraging Temporal Coherence for Compressible Neural Representations for Videos">
+  <meta name="keywords" content="video compression, implicit neural representations, INR, NeRV, hypernetwork">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TeCoNeRV: Leveraging Temporal Coherence for Compressible Neural Representations for Videos</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+</head>
+
+<body>
+
+  <!-- Hero / Title Section -->
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-widescreen">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">
+              TeCoNeRV: Leveraging Temporal Coherence for 
+              Compressible Neural Representations for Videos
+            </h1>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://namithap10.github.io/">Namitha Padmanabhan</a>,
+              </span>
+              <span class="author-block">
+                <a href="https://mgwillia.github.io/">Matthew Gwilliam</a>,
+              </span>
+              <span class="author-block">
+                <a href="http://www.cs.umd.edu/~abhinav/">Abhinav Shrivastava</a>
+              </span>
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">University of Maryland, College Park</span>
+            </div>
+
+            <!-- <div class="is-size-5 publication-venue">
+              <span class="author-block">CVPR 2026</span>
+            </div> -->
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <span class="link-block">
+                  <a href="#" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="#" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="ai ai-arxiv"></i></span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="#" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="fab fa-github"></i></span>
+                    <span>Code</span>
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Teaser Figure -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container is-widescreen has-text-centered">
+  
+      <video
+        src="static/videos/website_bosphore_sync_fps120.mp4"
+        autoplay
+        loop
+        muted
+        playsinline
+        preload="auto"
+        style="max-width: 1100px; width: 100%; border-radius: 6px;"
+      >
+      </video>
+  
+      <p class="has-text-centered" style="max-width: 1100px; width: 100%; margin: 1rem auto 0; padding: 0 0.75rem; box-sizing: border-box; color: #4a4a4a; white-space: normal; overflow-wrap: anywhere; word-break: normal;">
+        <b>TeCoNeRV enables temporally coherent weight updates for implicit video compression.</b>
+        <!-- <b>TeCoNeRV enforces temporally coherent weight evolution across video clips.</b> -->
+        As video content evolves over time (left), TeCoNeRV produces smooth clip-to-clip weight residuals (right),
+        in contrast to the baseline (NeRV-Enc) whose residual magnitudes fluctuate significantly.
+        This temporal coherence enables more efficient compression while preserving visual quality.
+        TeCoNeRV is the first hypernetwork-based implicit video compression method to scale to 720p and 1080p, while maintaining fast encoding speeds.
+      </p>
+  
+    </div>
+  </section>
+
+  <!-- TL;DR -->
+  <!-- <section class="section" style="padding-top: 0;">
+    <div class="container is-max-desktop">
+      <h2 class="subtitle has-text-centered">
+        <b>TL;DR:</b> TeCoNeRV is the first hypernetwork-based implicit video compression method to scale to 720p and 1080p, 
+        achieving better reconstruction quality over the baseline with lower bitrate while maintaining fast encoding speeds.
+      </h2>
+    </div>
+  </section> -->
+
+  <!-- Key Advantages -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Key Advantages</h2>
+      <div class="columns is-multiline">
+        <div class="column is-3">
+          <div class="advantage-box">
+            <span class="icon-text">
+              <span class="icon has-text-info"><i class="fas fa-memory"></i></span>
+              <span class="title is-5">Memory Reduction</span>
+            </span>
+            <p>Patch-tubelet decomposition decouples memory from resolution, enabling training on standard GPUs.</p>
+          </div>
+        </div>
+        <div class="column is-3">
+          <div class="advantage-box">
+            <span class="icon-text">
+              <span class="icon has-text-info"><i class="fas fa-bolt"></i></span>
+              <span class="title is-5">Faster Encoding</span>
+            </span>
+            <p>1.5-3× faster encoding compared to baseline NeRV-Enc, with no per-video optimization required.</p>
+          </div>
+        </div>
+        <div class="column is-3">
+          <div class="advantage-box">
+            <span class="icon-text">
+              <span class="icon has-text-info"><i class="fas fa-compress"></i></span>
+              <span class="title is-5">Lower Bitrate</span>
+            </span>
+            <p>Temporal coherence regularization produces highly compressible weight residuals, with nearly 40% lower bitrates.</p>
+          </div>
+        </div>
+        <div class="column is-3">
+          <div class="advantage-box">
+            <span class="icon-text">
+              <span class="icon has-text-info"><i class="fas fa-expand-arrows-alt"></i></span>
+              <span class="title is-5">Resolution Independent</span>
+            </span>
+            <p>Train at 480p, inference at 720p or 1080p. No high-resolution training data required.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Abstract -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3 has-text-centered">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Implicit Neural Representations (INRs) have recently demonstrated impressive performance for video compression. 
+              However, since a separate INR must be overfit for each video, scaling to high-resolution videos while maintaining 
+              encoding efficiency remains a significant challenge. Hypernetwork-based approaches predict INR weights (hyponetworks) 
+              for unseen videos at high speeds, but with low quality, high compressed size, and prohibitive memory needs at higher 
+              resolutions. We address these fundamental limitations through three key contributions: (1) an approach that decomposes 
+              the weight prediction task spatially and temporally, breaking short video segments into <em>patch tubelets</em> to reduce 
+              the memory overhead by 20× during pretraining; (2) a residual-based storage scheme that captures only the differences 
+              between consecutive segment representations, significantly reducing bitstream size; and (3) a <em>temporal coherence 
+              regularization</em> framework that encourages changes in the weight space to be correlated with changes in video content. 
+              Our proposed method, TeCoNeRV, achieves substantial improvements of 2.47dB and 5.35dB PSNR over 
+              the baseline at 480p and 720p on UVG, with 36% lower bitrates and 1.5-3× faster encoding speeds. 
+              With our low memory usage, we are the first hypernetwork-based approach to demonstrate results at 480p, 720p and 1080p 
+              on UVG, HEVC, and MCL-JCV.
+              <!-- Our proposed method, <b>TeCoNeRV</b>, achieves substantial improvements of <b>2.47dB</b> and <b>5.35dB</b> PSNR over 
+              the baseline at 480p and 720p on UVG, with <b>36% lower bitrates</b> and <b>1.5-3× faster encoding speeds</b>. 
+              With our low memory usage, we are the first hypernetwork-based approach to demonstrate results at 480p, 720p and 1080p 
+              on UVG, HEVC, and MCL-JCV. -->
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Method -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Method</h2>
+      
+      <div class="has-text-centered">
+        <img src="static/images/method.png" alt="TeCoNeRV method overview" style="max-width: 100%;">
+      </div>
+
+      <br>
+
+      <div class="content has-text-justified">
+        <p>
+          <!-- <b>Overview of TeCoNeRV.</b> -->
+          <em>Above:</em> Hypernetworks from prior work predict weights for entire video frames at once, 
+          resulting in large base parameters and bitstream size. <em>Below:</em> Our approach, TeCoNeRV, with (a) patch-tubelets that decouple 
+          spatial resolution from memory requirements, (b) residual encoding that stores only weight differences across time steps, 
+          and (c) temporal coherence finetuning that regularizes weight differences. Together, these components achieve better 
+          compression efficiency and superior reconstruction quality.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Results</h2>
+      
+      <p class="has-text-centered" style="margin-bottom: 1.5rem;">
+        Average reconstruction gains at a fixed operating point per resolution.
+        Baseline varies by resolution due to memory constraints.
+      </p>
+  
+      <!-- Resolution Tabs -->
+      <div class="res-tabs">
+        <button class="res-tab is-active" onclick="showResults('480p')">480p</button>
+        <button class="res-tab" onclick="showResults('720p')">720p</button>
+        <button class="res-tab" onclick="showResults('1080p')">1080p</button>
+      </div>
+  
+      <!-- 480p Results -->
+      <div id="results-480p" class="columns is-centered">
+        <div class="column is-3">
+          <div class="result-box">
+            <div class="dataset-name">UVG</div>
+            <div class="value">+2.47</div>
+            <div class="label-text">dB (PSNR gain)</div>
+          </div>
+        </div>
+        <div class="column is-3">
+          <div class="result-box">
+            <div class="dataset-name">HEVC</div>
+            <div class="value">+1.66</div>
+            <div class="label-text">dB (PSNR gain)</div>
+          </div>
+        </div>
+        <div class="column is-3">
+          <div class="result-box">
+            <div class="dataset-name">MCL-JCV</div>
+            <div class="value">+1.94</div>
+            <div class="label-text">dB (PSNR gain)</div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- 720p Note -->
+      <p id="note-720p" class="has-text-centered is-size-7"
+         style="color:#7a7a7a; margin-top:0.5rem; margin-bottom:1rem; display:none;">
+        720p results are reported at a single operating point (no full rate–distortion curve).
+      </p>
+  
+      <!-- 720p Results -->
+      <div id="results-720p" class="columns is-centered" style="display: none;">
+        <div class="column is-3">
+          <div class="result-box">
+            <div class="dataset-name">UVG</div>
+            <div class="value">+4.94</div>
+            <div class="label-text">dB (PSNR gain)</div>
+          </div>
+        </div>
+        <div class="column is-3">
+          <div class="result-box">
+            <div class="dataset-name">HEVC</div>
+            <div class="value">+6.11</div>
+            <div class="label-text">dB (PSNR gain)</div>
+          </div>
+        </div>
+        <div class="column is-3">
+          <div class="result-box">
+            <div class="dataset-name">MCL-JCV</div>
+            <div class="value">+4.64</div>
+            <div class="label-text">dB (PSNR gain)</div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- 1080p Note -->
+      <p id="note-1080p" class="has-text-centered is-size-7"
+         style="color:#7a7a7a; margin-top:0.5rem; margin-bottom:1rem; display:none;">
+        At 1080p, NeRV-Enc* runs out of memory. Comparisons are shown against the per-video NeRV baseline.
+      </p>
+  
+      <!-- 1080p Results -->
+      <div id="results-1080p" class="columns is-centered" style="display: none;">
+        <div class="column is-3">
+          <div class="result-box">
+            <div class="dataset-name">UVG</div>
+            <div class="value">+4.63</div>
+            <div class="label-text">dB (vs NeRV)</div>
+          </div>
+        </div>
+        <div class="column is-3">
+          <div class="result-box">
+            <div class="dataset-name">HEVC</div>
+            <div class="value">+4.10</div>
+            <div class="label-text">dB (vs NeRV)</div>
+          </div>
+        </div>
+        <div class="column is-3">
+          <div class="result-box">
+            <div class="dataset-name">MCL-JCV</div>
+            <div class="value">+8.12</div>
+            <div class="label-text">dB (vs NeRV)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+  <!-- Rate Control -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Rate Control - To be removed?</h2>
+      
+      <p class="has-text-justified">
+        TeCoNeRV provides two complementary mechanisms for controlling the quality-bitrate trade-off.
+        To eliminate boundary artifacts from patch-based reconstruction, we employ strided inference with 
+        overlap, cropping at patch boundaries to produce smooth transitions.
+      </p>
+
+      <div class="columns" style="margin-top: 1.5rem;">
+        <div class="column is-6 has-text-centered">
+          <img src="static/images/overlap_patches_plots_small.png" alt="Rate control via patch configuration" style="max-width: 100%;">
+          <p style="margin-top: 0.5rem;"><b>Patch Size & Overlap</b></p>
+          <p class="is-size-7" style="color: #4a4a4a;">
+            Adjusting spatial partitioning and overlap trades off quality vs bitrate.
+          </p>
+        </div>
+        <div class="column is-6 has-text-centered">
+          <img src="static/images/l1_lever_480p_to_720p.png" alt="Rate control via lambda" style="max-width: 100%;">
+          <p style="margin-top: 0.5rem;"><b>Temporal Regularization (λ<sub>temp</sub>)</b></p>
+          <p class="is-size-7" style="color: #4a4a4a;">
+            Varying λ<sub>temp</sub> provides up to 18% bitrate reduction with only 4% PSNR loss.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section" id="References">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">References</h2>
+      <div class="content">
+        <ol>
+          <li>
+            Hao Chen et al.
+            <a href="https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/05618.pdf">Fast Encoding and Decoding for Implicit Video Representation</a>.
+            <i>European Conference on Computer Vision (ECCV)</i>, 2024.
+            <!-- <a href="https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/05618.pdf" target="_blank" rel="noopener"> -->
+              <!-- [PDF] -->
+            </a>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+  
+
+  
+  <!-- BibTeX -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">BibTeX</h2>
+      <!-- <p>If you find our work useful, please consider citing:</p> -->
+      <div class="bibtex-box">
+        <button class="copy-btn" onclick="copyBibtex()">
+          <i class="far fa-copy"></i> Copy
+        </button>
+        <pre><code>
+            <!-- @inproceedings{teconerv2026,
+          title={TeCoNeRV: Leveraging Temporal Coherence for Compressible Neural Representations for Videos},
+          author={Author, First and Author, Second and Shrivastava, Abhinav},
+          booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+          year={2026}
+        } -->
+        </code></pre>
+        </div>
+    </div>
+    </section>
+
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content has-text-centered">
+            <p>
+              The source code of this webpage is based on the <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> project webpage.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Resolution tab switching for results
+    function showResults(resolution) {
+      document.getElementById('results-480p').style.display = 'none';
+      document.getElementById('results-720p').style.display = 'none';
+      document.getElementById('results-1080p').style.display = 'none';
+      document.getElementById('results-' + resolution).style.display = 'flex';
+      
+      // Update tabs - first set
+      const tabs = document.querySelectorAll('.res-tabs')[0].querySelectorAll('.res-tab');
+      tabs.forEach(tab => tab.classList.remove('is-active'));
+      event.target.classList.add('is-active');
+    }
+
+    // Resolution tab switching for qualitative
+    function showQual(resolution) {
+      document.getElementById('qual-480p').style.display = 'none';
+      document.getElementById('qual-720p').style.display = 'none';
+      document.getElementById('qual-1080p').style.display = 'none';
+      document.getElementById('qual-' + resolution).style.display = 'block';
+      
+      // Update tabs - second set
+      const tabs = document.querySelectorAll('.res-tabs')[1].querySelectorAll('.res-tab');
+      tabs.forEach(tab => tab.classList.remove('is-active'));
+      event.target.classList.add('is-active');
+    }
+
+    // Copy BibTeX
+    function copyBibtex() {
+      const bibtex = document.querySelector('.bibtex-box pre code').textContent;
+      navigator.clipboard.writeText(bibtex).then(() => {
+        const btn = document.querySelector('.copy-btn');
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        setTimeout(() => {
+          btn.innerHTML = '<i class="far fa-copy"></i> Copy';
+        }, 2000);
+      });
+    }
+  </script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+
+</body>
+</html>
