@@ -61,12 +61,12 @@
                     <span>Paper</span>
                   </a>
                 </span>
-                <span class="link-block">
+                <!-- <span class="link-block">
                   <a href="#" class="external-link button is-normal is-rounded is-dark">
                     <span class="icon"><i class="ai ai-arxiv"></i></span>
                     <span>arXiv</span>
                   </a>
-                </span>
+                </span> -->
                 <span class="link-block">
                   <a href="#" class="external-link button is-normal is-rounded is-dark">
                     <span class="icon"><i class="fab fa-github"></i></span>
@@ -151,7 +151,7 @@
           <div class="advantage-box">
             <span class="icon-text">
               <span class="icon has-text-info"><i class="fas fa-expand-arrows-alt"></i></span>
-              <span class="title is-5">Resolution Independent</span>
+              <span class="title is-5">Resolution Independence</span>
             </span>
             <p>Train at 480p, inference at 720p or 1080p. No high-resolution training data required.</p>
           </div>
@@ -247,6 +247,12 @@
 
       <!-- Resolution Tabs -->
       <h4 class="title is-4 has-text-centered" style="color: #029cad;">Option 2 - doesn't show bpp, which is not good</h4>
+      
+      <p id="note-1080p" class="has-text-centered is-size-9"
+      style="color:red; margin-top:0.5rem; margin-bottom:1rem; width:100%;">
+      At 1080p, NeRV-Enc runs out of memory. Comparisons are shown against the per-video NeRV baseline.
+      </p>
+
       <div class="res-tabs">
         <button class="res-tab is-active" onclick="showResults('480p')">480p</button>
         <button class="res-tab" onclick="showResults('720p')">720p</button>
@@ -304,11 +310,7 @@
       </div>
 
       <!-- 1080p Results -->
-      <div id="results-1080p" class="columns is-centered" style="display: none;">
-        <p id="note-1080p" class="has-text-centered is-size-7"
-        style="color:red; margin-top:0.5rem; margin-bottom:1rem; width:100%;">
-        At 1080p, NeRV-Enc runs out of memory. Comparisons are shown against the per-video NeRV baseline.
-      </p>
+      <div id="results-1080p" class="columns is-centered" style="display: none;"> 
 
         <div class="column is-3">
           <div class="result-box">
@@ -339,11 +341,13 @@
 
       <h4 class="title is-4 has-text-centered" style="color: #029cad;">Option 3 - maybe put an arrow showing improvement from NeRV-Enc to TeCoNeRV for each dataset?</h4>
       <div class="has-text-centered" style="margin-top: 2rem;">
-        <img src="static/images/website_psnr_bpp_scatter.png"
+        <img src="static/images/website_psnr_bpp_scatter_v2.png"
              alt="PSNR vs BPP scatter across resolutions"
-             style="max-width: 1000px; width: 100%;">
+             style="max-width: 1000px; width: 90%;">
         <p class="is-size-9" style="color:#000000; margin-top:0.5rem;">
           PSNR vs bitrate (bpp) per dataset per resolution. Marker shape denotes dataset; color denotes method.
+        </p>
+        <p class="is-size-9" style="color:#000000; margin-top:0.5rem;">
           At 1080p, NeRV-Enc* is out of memory.
         </p>
       </div>
@@ -370,12 +374,12 @@
       <h2 class="title is-3 has-text-centered">Qualitative Results</h2>
       <div class="has-text-centered" style="margin-top: 2rem; margin-bottom: 2rem;">
         <p class="is-size-9" style="color:red; margin-top: 0.5rem;">
-          <b>Placeholder - NeRV-Enc at 720p is terrible and at 1080p runs OOM - so just showing TeCoNeRV</b>
+          <b>Placeholder - NeRV-Enc at 720p is distorted and at 1080p runs OOM. Just showing TeCoNeRV currently.</b>
         </p>
         <p class="is-size-9" style="color: #000000; margin-top: 0.5rem;">
           <b>720p:</b> Johnny example using overlapping patches and cropping
         </p>
-        <video src="static/videos/johnny_720p_overlap_crop.mp4" autoplay loop muted playsinline preload="auto"
+        <video src="static/videos/johnny_720p_overlap_crop.mp4" autoplay loop muted playsinline controls preload="auto"
           style="width: 60%; max-width: 100%; border-radius: 10px;"
           >
         </video>
@@ -383,7 +387,7 @@
         <p class="is-size-9" style="color: #000000; margin-top: 0.5rem;">
           <b>1080p:</b> Beauty example using overlapping patches and blending
         </p>
-        <video src="static/videos/beauty_1080p_overlap_blend.mp4" autoplay loop muted playsinline preload="auto"
+        <video src="static/videos/beauty_1080p_overlap_blend.mp4" autoplay loop muted playsinline controls preload="auto"
           style="width: 75%; max-width: 100%; border-radius: 10px;"
           >
         </video>
