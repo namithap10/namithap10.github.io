@@ -49,10 +49,6 @@
               <span class="author-block">University of Maryland, College Park</span>
             </div>
 
-            <!-- <div class="is-size-5 publication-venue">
-              <span class="author-block">CVPR 2026</span>
-            </div> -->
-
             <div class="column has-text-centered">
               <div class="publication-links">
                 <span class="link-block">
@@ -61,14 +57,8 @@
                     <span>Paper</span>
                   </a>
                 </span>
-                <!-- <span class="link-block">
-                  <a href="#" class="external-link button is-normal is-rounded is-dark">
-                    <span class="icon"><i class="ai ai-arxiv"></i></span>
-                    <span>arXiv</span>
-                  </a>
-                </span> -->
                 <span class="link-block">
-                  <a href="#" class="external-link button is-normal is-rounded is-dark">
+                  <a href="https://github.com/namithap10/TeCoNeRV/" class="external-link button is-normal is-rounded is-dark">
                     <span class="icon"><i class="fab fa-github"></i></span>
                     <span>Code</span>
                   </a>
@@ -95,9 +85,9 @@
         <b>TeCoNeRV enables temporally coherent weight updates for implicit video compression.</b>
         <!-- <b>TeCoNeRV enforces temporally coherent weight evolution across video clips.</b> -->
         As video content evolves over time (left), TeCoNeRV produces smooth clip-to-clip weight residuals (right),
-        in contrast to the baseline (NeRV-Enc [1]) whose residual magnitudes fluctuate significantly.
+        in contrast to the baseline (NeRV-Enc&nbsp;[1]) whose residual magnitudes fluctuate significantly.
         This temporal coherence enables more efficient compression while preserving visual quality.
-        TeCoNeRV is the first hypernetwork-based implicit video compression method to scale to 720p and 1080p, while
+        TeCoNeRV is the first hypernetwork-based implicit video compression method that scales to 720p and 1080p, while
         maintaining fast encoding speeds.
       </p>
 
@@ -168,33 +158,18 @@
           <h2 class="title is-3 has-text-centered">Abstract</h2>
           <div class="content has-text-justified">
             <p>
-              Implicit Neural Representations (INRs) have recently demonstrated impressive performance for video
-              compression.
-              However, since a separate INR must be overfit for each video, scaling to high-resolution videos while
-              maintaining
-              encoding efficiency remains a significant challenge. Hypernetwork-based approaches predict INR weights
-              (hyponetworks)
-              for unseen videos at high speeds, but with low quality, high compressed size, and prohibitive memory needs
-              at higher
-              resolutions. We address these fundamental limitations through three key contributions: (1) an approach
-              that decomposes
-              the weight prediction task spatially and temporally, breaking short video segments into <em>patch
-                tubelets</em> to reduce
-              the memory overhead by 20× during pretraining; (2) a residual-based storage scheme that captures only the
-              differences
-              between consecutive segment representations, significantly reducing bitstream size; and (3) a <em>temporal
-                coherence
-                regularization</em> framework that encourages changes in the weight space to be correlated with changes
-              in video content.
-              Our proposed method, TeCoNeRV, achieves substantial improvements of 2.47dB and 5.35dB PSNR over
+              Implicit Neural Representations (INRs) have recently demonstrated impressive performance for
+              video compression. However, since a separate INR must be overfit for each video, scaling to high-resolution videos while maintaining
+              encoding efficiency remains a significant challenge. Hypernetwork-based approaches predict INR weights (hyponetworks) for unseen videos
+              at high speeds, but with low quality, large compressed size, and prohibitive memory needs at higher resolutions. We address these fundamental
+              limitations through three key contributions: (1) an approach that decomposes the weight prediction task spatially and temporally, by breaking
+              short video segments into <em>patch tubelets</em>, to reduce the pretraining memory overhead by 20×;
+              (2) a <em>residual-based</em> storage scheme that captures only differences between consecutive segment representations, significantly reducing bitstream size; and (3) a
+              <em>temporal coherence regularization</em> framework that encourages changes in the weight space to be correlated with video content. Our proposed method,
+              TeCoNeRV, achieves substantial improvements of 2.47dB and 5.35dB PSNR over the baseline at 480p and 720p on UVG, with 36% lower bitrates and 1.5-3× faster encoding speeds. With our low memory usage, we are the first hypernetwork approach to demonstrate results at 480p, 720p and 1080p on UVG, HEVC and MCL-JCV.
               the baseline at 480p and 720p on UVG, with 36% lower bitrates and 1.5-3× faster encoding speeds.
               With our low memory usage, we are the first hypernetwork-based approach to demonstrate results at 480p,
-              720p and 1080p
-              on UVG, HEVC, and MCL-JCV.
-              <!-- Our proposed method, <b>TeCoNeRV</b>, achieves substantial improvements of <b>2.47dB</b> and <b>5.35dB</b> PSNR over 
-              the baseline at 480p and 720p on UVG, with <b>36% lower bitrates</b> and <b>1.5-3× faster encoding speeds</b>. 
-              With our low memory usage, we are the first hypernetwork-based approach to demonstrate results at 480p, 720p and 1080p 
-              on UVG, HEVC, and MCL-JCV. -->
+              720p and 1080p on UVG, HEVC, and MCL-JCV.
             </p>
           </div>
         </div>
@@ -230,205 +205,95 @@
     </div>
   </section>
 
+  <!-- Results -->
   <section class="section">
     <div class="container is-max-desktop">
       <h2 class="title is-3 has-text-centered">Results</h2>
-      <h4 class="title is-4 has-text-centered" style="color: #029cad;">Option 1</h4>
+
+      <!-- Main table -->
       <div class="has-text-centered" style="margin-bottom: 2rem;">
-        <img src="static/images/table_1_results.png" alt="Table 1: Main Results" style="max-width:1100px; width: 100%;">
-        <p class="is-size-7" style="color: #7a7a7a; margin-top: 0.5rem;">
+        <img src="static/images/table_1_results.png"
+            alt="Main quantitative results"
+            style="max-width: 1100px; width: 100%;">
+
+        <p class="is-size-8" style="color:#4a4a4a; margin-top:0.75rem;">
+          <b>Main quantitative results (PSNR/SSIM, bitrate, and encoding/decoding speed).</b>
+          Our primary hypernetwork baseline is <b>NeRV-Enc</b> (from FastNeRV&nbsp;[1]).
+          Since NeRV-Enc’s memory grows quickly with resolution and is OOM at 1080p,
+          we report comparisons against NeRV&nbsp;[2] and HiNeRV&nbsp;[3] at 1080p.
         </p>
       </div>
 
-      <!-- <p class="has-text-centered" style="margin-bottom: 1.5rem;">
-        Average reconstruction gains at a fixed operating point per resolution.
-        Baseline varies by resolution due to memory constraints.
-      </p> -->
+      <!-- RD plot -->
+      <div class="has-text-centered" style="margin-top: 0.5rem;">
+        <img src="static/images/rd_plot.png"
+            alt="Rate–distortion curves at 480p"
+            style="width: 75%; max-width: 1100px;">
 
-      <!-- Resolution Tabs -->
-      <h4 class="title is-4 has-text-centered" style="color: #029cad;">Option 2 - doesn't show bpp, which is not good</h4>
-      
-      <p id="note-1080p" class="has-text-centered is-size-9"
-      style="color:red; margin-top:0.5rem; margin-bottom:1rem; width:100%;">
-      At 1080p, NeRV-Enc runs out of memory. Comparisons are shown against the per-video NeRV baseline.
-      </p>
-
-      <div class="res-tabs">
-        <button class="res-tab is-active" onclick="showResults('480p')">480p</button>
-        <button class="res-tab" onclick="showResults('720p')">720p</button>
-        <button class="res-tab" onclick="showResults('1080p')">1080p</button>
-      </div>
-
-      <!-- 480p Results -->
-      <div id="results-480p" class="columns is-centered">
-        <div class="column is-3">
-          <div class="result-box">
-            <div class="dataset-name">UVG</div>
-            <div class="value">+2.47</div>
-            <div class="label-text">dB (PSNR gain)</div>
-          </div>
-        </div>
-        <div class="column is-3">
-          <div class="result-box">
-            <div class="dataset-name">HEVC</div>
-            <div class="value">+1.66</div>
-            <div class="label-text">dB (PSNR gain)</div>
-          </div>
-        </div>
-        <div class="column is-3">
-          <div class="result-box">
-            <div class="dataset-name">MCL-JCV</div>
-            <div class="value">+1.94</div>
-            <div class="label-text">dB (PSNR gain)</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 720p Results -->
-      <div id="results-720p" class="columns is-centered" style="display: none;">
-        <div class="column is-3">
-          <div class="result-box">
-            <div class="dataset-name">UVG</div>
-            <div class="value">+4.94</div>
-            <div class="label-text">dB (PSNR gain)</div>
-          </div>
-        </div>
-        <div class="column is-3">
-          <div class="result-box">
-            <div class="dataset-name">HEVC</div>
-            <div class="value">+6.11</div>
-            <div class="label-text">dB (PSNR gain)</div>
-          </div>
-        </div>
-        <div class="column is-3">
-          <div class="result-box">
-            <div class="dataset-name">MCL-JCV</div>
-            <div class="value">+4.64</div>
-            <div class="label-text">dB (PSNR gain)</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 1080p Results -->
-      <div id="results-1080p" class="columns is-centered" style="display: none;"> 
-
-        <div class="column is-3">
-          <div class="result-box">
-            <div class="dataset-name">UVG</div>
-            <div class="value">+4.63</div>
-            <div class="label-text">dB</div>
-            <div class="label-text" style="color: red;">(vs NeRV)</div>
-          </div>
-        </div>
-        <div class="column is-3">
-          <div class="result-box">
-            <div class="dataset-name">HEVC</div>
-            <div class="value">+4.10</div>
-            <div class="label-text">dB</div>
-            <div class="label-text" style="color: red;">(vs NeRV)</div>
-
-          </div>
-        </div>
-        <div class="column is-3">
-          <div class="result-box">
-            <div class="dataset-name">MCL-JCV</div>
-            <div class="value">+8.12</div>
-            <div class="label-text">dB</div>
-            <div class="label-text" style="color: red;">(vs NeRV)</div>
-          </div>
-        </div>
-      </div>
-
-      <h4 class="title is-4 has-text-centered" style="color: #029cad;">Option 3 - maybe put an arrow showing improvement from NeRV-Enc to TeCoNeRV for each dataset?</h4>
-      <div class="has-text-centered" style="margin-top: 2rem;">
-        <img src="static/images/website_psnr_bpp_scatter_v2.png"
-             alt="PSNR vs BPP scatter across resolutions"
-             style="max-width: 1000px; width: 90%;">
-        <p class="is-size-9" style="color:#000000; margin-top:0.5rem;">
-          PSNR vs bitrate (bpp) per dataset per resolution. Marker shape denotes dataset; color denotes method.
-        </p>
-        <p class="is-size-9" style="color:#000000; margin-top:0.5rem;">
-          At 1080p, NeRV-Enc* is out of memory.
+        <p class="is-size-8" style="color:#4a4a4a; margin-top:0.75rem;">
+          <b>Rate–distortion at 480p.</b> PSNR vs. bitrate (bpp) on <b>UVG</b> (left) and <b>Kinetics-400</b> (right),
+          comparing TeCoNeRV to NeRV-Enc.
         </p>
       </div>
-      
     </div>
   </section>
 
-
-
-  <h3 class="title is-4 has-text-centered" style="margin-top: 2.5rem;">Rate-Distortion Performance</h3>
-  <div class="has-text-centered">
-    <p class="is-size-9" style="color: red; margin-top: 0.5rem;">
-      <b>To be merged with 480p panel above</b>
-    </p>
-    <p class="is-size-9" style="color: #7a7a7a; margin-top: 0.5rem;">
-      Quality vs bitrate on UVG (left) and Kinetics-400 (right) at 480p.
-    </p>
-    <img src="static/images/rd_plot.png" alt="Rate-distortion curves" style="max-width: 550px; width: 100%;">
-  </div>
 
   <!-- Qualitative Results -->
   <section class="section">
     <div class="container is-max-desktop">
-      <h2 class="title is-3 has-text-centered">Qualitative Results</h2>
-      <div class="has-text-centered" style="margin-top: 2rem; margin-bottom: 2rem;">
-        <p class="is-size-9" style="color:red; margin-top: 0.5rem;">
-          <b>Placeholder - NeRV-Enc at 720p is distorted and at 1080p runs OOM. Just showing TeCoNeRV currently.</b>
-        </p>
-        <p class="is-size-9" style="color: #000000; margin-top: 0.5rem;">
-          <b>720p:</b> Johnny example using overlapping patches and cropping
-        </p>
-        <video src="static/videos/johnny_720p_overlap_crop.mp4" autoplay loop muted playsinline controls preload="auto"
-          style="width: 60%; max-width: 100%; border-radius: 10px;"
-          >
-        </video>
 
-        <p class="is-size-9" style="color: #000000; margin-top: 0.5rem;">
-          <b>1080p:</b> Beauty example using overlapping patches and blending
-        </p>
-        <video src="static/videos/beauty_1080p_overlap_blend.mp4" autoplay loop muted playsinline controls preload="auto"
-          style="width: 75%; max-width: 100%; border-radius: 10px;"
-          >
-        </video>
-        <!-- controls -->
-        <!-- style="max-width: 1100px; width: 100%;"> -->
+      <!-- <h2 class="title is-5 has-text-centered" style="margin-top: 2.5rem;">
+        Reconstructions at 480p (TeCoNeRV vs. NeRV-Enc, on UVG)
+      </h2> -->
 
+      <div class="has-text-centered">
+        <img src="static/images/qual_480p_nervenc_teco.png"
+            alt="480p qualitative comparison: NeRV-Enc vs TeCoNeRV"
+            style="width: 100%;">
       </div>
-    </div>
-
-  </section>
-
-  <!-- Rate Control -->
-  <section class="section">
-    <div class="container is-max-desktop">
-      <h2 class="title is-3 has-text-centered">Rate Control - To be removed?</h2>
-
-      <p class="has-text-justified">
-        TeCoNeRV provides two complementary mechanisms for controlling the quality-bitrate trade-off.
-        To eliminate boundary artifacts from patch-based reconstruction, we employ strided inference with
-        overlap, cropping at patch boundaries to produce smooth transitions.
+      <!--  style="margin-bottom: 2rem;" -->
+      <p class="is-size-8 has-text-centered" style="color:#4a4a4a; margin-top: 0.5rem; margin-bottom: 1.25rem;">
+        Visual comparison of <b>reconstruction quality at 480p</b> (TeCoNeRV vs. NeRV-Enc, on UVG).
       </p>
 
-      <div class="columns" style="margin-top: 1.5rem;">
-        <div class="column is-6 has-text-centered">
-          <img src="static/images/overlap_patches_plots_small.png" alt="Rate control via patch configuration"
-            style="max-width: 100%;">
-          <p style="margin-top: 0.5rem;"><b>Patch Size & Overlap</b></p>
-          <p class="is-size-7" style="color: #4a4a4a;">
-            Adjusting spatial partitioning and overlap trades off quality vs bitrate.
-          </p>
-        </div>
-        <div class="column is-6 has-text-centered">
-          <img src="static/images/l1_lever_480p_to_720p.png" alt="Rate control via lambda" style="max-width: 100%;">
-          <p style="margin-top: 0.5rem;"><b>Temporal Regularization (λ<sub>temp</sub>)</b></p>
-          <p class="is-size-7" style="color: #4a4a4a;">
-            Varying λ<sub>temp</sub> provides up to 18% bitrate reduction with only 4% PSNR loss.
-          </p>
-        </div>
+      <h2 class="title is-5 has-text-centered" style="margin-top: 2.5rem;">
+        Video reconstructions of TeCoNeRV at higher resolutions
+      </h2>
+
+      <p class="is-size-7 has-text-centered" style="color:#4a4a4a; margin-top: 0.5rem; margin-bottom: 1.25rem;">
+        NeRV-Enc is omitted at higher resolutions due to degraded quality at 720p and out-of-memory at 1080p.
+      </p>
+
+      <!-- Example 1 -->
+      <div class="has-text-centered" style="margin-top: 1.25rem; margin-bottom: 2rem;">
+        <p class="is-size-9" style="color:#4a4a4a; margin-bottom: 0.5rem;">
+          <b>720p • Johnny (HEVC)</b>
+           <!-- — TeCoNeRV reconstruction with overlapping patches + cropping. -->
+        </p>
+
+        <video src="static/videos/johnny_720p_overlap_crop.mp4"
+              autoplay loop muted playsinline controls preload="auto"
+              style="width: 55%; max-width: 100%; border-radius: 10px;">
+        </video>
       </div>
+
+      <!-- Example 2 -->
+      <div class="has-text-centered" style="margin-top: 1.25rem; margin-bottom: 2rem;">
+        <p class="is-size-9" style="color:#4a4a4a; margin-bottom: 0.5rem;">
+          <b>1080p • Beauty (UVG)</b>
+           <!-- — TeCoNeRV reconstruction with overlapping patches + blending. -->
+        </p>
+
+        <video src="static/videos/beauty_1080p_overlap_blend.mp4"
+              autoplay loop muted playsinline controls preload="auto"
+              style="width: 75%; max-width: 100%; border-radius: 10px;">
+        </video>
+      </div>
+
     </div>
   </section>
+
 
 
   <section class="section" id="References">
@@ -440,10 +305,18 @@
             Hao Chen et al.
             <a href="https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/05618.pdf">Fast Encoding and Decoding for
               Implicit Video Representation</a>.
-            In <i>European Conference on Computer Vision (ECCV)</i>, 2024.
-            <!-- <a href="https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/05618.pdf" target="_blank" rel="noopener"> -->
-            <!-- [PDF] -->
+              In <i>ECCV</i>, 2024.
             </a>
+          <li>
+            Hao Chen et al.
+            <a href="https://arxiv.org/pdf/2110.13903">NeRV: Neural Representations for Videos</a>.
+            In <i>NeurIPS</i>, 2021.
+          </li>
+          <li>
+            Ho Man Kwan et al.
+            <a href="https://arxiv.org/pdf/2306.09818">HiNeRV: Video Compression with Hierarchical Encoding-based Neural Representation</a>.
+            In <i>NeurIPS</i>, 2023.
+          </li>
           </li>
         </ol>
       </div>
